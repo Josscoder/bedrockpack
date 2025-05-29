@@ -55,14 +55,12 @@ func (o *OTF) Start() error {
 
 	// then start the ticker
 	ticker := time.NewTicker(10 * time.Minute)
-	defer ticker.Stop()
 	go func() {
+		defer ticker.Stop()
 		for {
-			select {
-			case <-ticker.C:
-				if err := o.tick(); err != nil {
-					o.log.Error("failed to tick", "error", err)
-				}
+			<-ticker.C
+			if err := o.tick(); err != nil {
+				o.log.Error("failed to tick", "error", err)
 			}
 		}
 	}()
