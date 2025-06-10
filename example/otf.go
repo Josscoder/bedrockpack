@@ -4,16 +4,18 @@ import (
 	"github.com/josscoder/bedrockpack/pack"
 	"github.com/sandertv/gophertunnel/minecraft"
 	"log/slog"
+	"time"
 )
 
 func main() {
 	log := slog.Default()
 
 	conf := pack.OTFConfig{
-		OrgName:  "Faithful-Resource-Pack",
-		RepoName: "Faithful-32x-Bedrock",
-		Branch:   "bedrock-latest",
-		PAT:      "",
+		OrgName:        "Faithful-Resource-Pack",
+		RepoName:       "Faithful-32x-Bedrock",
+		Branch:         "bedrock-latest",
+		PAT:            "",
+		UpdateInterval: 1 * time.Minute,
 	}
 	otf := conf.New(log)
 	if err := otf.Start(); err != nil {
