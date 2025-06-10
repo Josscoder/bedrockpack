@@ -20,6 +20,7 @@ type OTF struct {
 	branch   string
 	// pat is personal access token
 	pat               string
+	updateInterval    time.Duration
 	currentPackCommit string
 	currentPackKey    string
 	currentPack       *resource.Pack
@@ -30,19 +31,21 @@ const (
 )
 
 type OTFConfig struct {
-	OrgName  string
-	RepoName string
-	Branch   string
-	PAT      string
+	OrgName        string
+	RepoName       string
+	Branch         string
+	PAT            string
+	UpdateInterval time.Duration
 }
 
 func (conf OTFConfig) New(log *slog.Logger) *OTF {
 	return &OTF{
-		log:      log.With("pack_repo", conf.OrgName+"/"+conf.RepoName+":"+conf.Branch),
-		orgName:  conf.OrgName,
-		repoName: conf.RepoName,
-		branch:   conf.Branch,
-		pat:      conf.PAT,
+		log:            log.With("pack_repo", conf.OrgName+"/"+conf.RepoName+":"+conf.Branch),
+		orgName:        conf.OrgName,
+		repoName:       conf.RepoName,
+		branch:         conf.Branch,
+		pat:            conf.PAT,
+		updateInterval: conf.UpdateInterval,
 	}
 }
 
@@ -54,7 +57,11 @@ func (o *OTF) Start() error {
 	}
 
 	// then start the ticker
-	ticker := time.NewTicker(10 * time.Minute)
+	if o.updateInterval == 0 {
+		o.updateInterval = 10 * time.Minute
+	}
+
+	ticker := time.NewTicker(o.updateInterval)
 	go func() {
 		defer ticker.Stop()
 		for {
