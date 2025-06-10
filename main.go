@@ -2,8 +2,8 @@ package main
 
 import (
 	"fmt"
-	"github.com/akmalfairuz/bedrockpack/internal/stealer"
-	"github.com/akmalfairuz/bedrockpack/pack"
+	"github.com/josscoder/bedrockpack/internal/stealer"
+	"github.com/josscoder/bedrockpack/pack"
 	"os"
 )
 

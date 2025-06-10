@@ -1,7 +1,7 @@
 package main
 
 import (
-	"github.com/akmalfairuz/bedrockpack/pack"
+	"github.com/josscoder/bedrockpack/pack"
 	"github.com/sandertv/gophertunnel/minecraft"
 	"log/slog"
 )
